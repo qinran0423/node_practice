@@ -1,6 +1,6 @@
 test('练习05 订阅发布实现', (done) => {
     const mockFn = jest.fn()
-
+    
     const Connection = require('../index')
     const conn = new Connection()
 
