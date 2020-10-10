@@ -1,34 +1,51 @@
 const Sequelize = require('sequelize');
+const mysql = require('mysql2/promise')
 module.exports.initModel = async sequelize => {
   // ##BEGIN## 代码已加密
-gywgywg9Lgdegd9gdmgywgcRgywgdegd9gdHgd=gd9gdPgdngR9gd9gqDgdcgd9gddgdngdvgd9gqRgqdgd=gdegd9gdmgqdgqlgywgRd
-gywgywgywgywgdngdcgccgywgRd
-gywgywgywgywgywgywgdwgRcgdYgd9gccgywg9kgd9gdHgd=gd9gdPgdngR9gd9gqDgceg9qg9ngcUgcHgcUg9Rgql
-gywgywgywgywgywgywgdggd=gdwgdUgcegdvgdqgdmgd9gdDgd9gdvgdwgccgywgdwgdmgd=gd9gql
-gywgywgywgywgywgywgdggdPgdPgdUgRyg9qgd=gdPgdPgccgywgddgdggdPgdegd9gql
-gywgywgywgywgywgywgdYgdmgdngdDgdggdmgRcgc=gd9gRcgccgywgdwgdmgd=gd9
-gywgywgywgywgRkgql
-gywgywgywgywgdvgdggdDgd9gccgywg9kgd9gdHgd=gd9gdPgdngR9gd9gqDg9kg9ng9Rgceg9qgcH
-gywgywgRkgqkgc9
+  // 暗号：哈希算法
 
-gywgywg99gdmgdUgdcgd=gdqgdwgywgcRgywgdegd9gdHgd=gd9gdPgdngR9gd9gqDgdcgd9gddgdngdvgd9gqRgqdgdYgdmgdUgdcgd=gdqgdwgqdgqlgywgRd
-gywgywgywgywgdngdcgccgywgRd
-gywgywgywgywgywgywgdwgRcgdYgd9gccgywg9kgd9gdHgd=gd9gdPgdngR9gd9gqDgceg9qg9ngcUgcHgcUg9Rgql
-gywgywgywgywgywgywgdggd=gdwgdUgcegdvgdqgdmgd9gdDgd9gdvgdwgccgywgdwgdmgd=gd9gql
-gywgywgywgywgywgywgdggdPgdPgdUgRyg9qgd=gdPgdPgccgywgddgdggdPgdegd9gql
-gywgywgywgywgywgywgdYgdmgdngdDgdggdmgRcgc=gd9gRcgccgywgdwgdmgd=gd9
-gywgywgywgywgRkgql
-gywgywgywgywgdwgdngdwgdPgd9gccgywgRd
-gywgywgywgywgywgywgdwgRcgdYgd9gccgywg9kgd9gdHgd=gd9gdPgdngR9gd9gqDg9kg9ng9Rgceg9qgcHgql
-gywgywgywgywgywgywgdggdPgdPgdUgRyg9qgd=gdPgdPgccgywgddgdggdPgdegd9
-gywgywgywgywgRkgql
-gywgywgRkgqkgc9
-gywgywg99gdmgdUgdcgd=gdqgdwgqDgdygd9gdPgdUgdvgdRgdeg9ngdUgqRg9Lgdegd9gdmgqlgywgRd
-gywgywgywgywgdqgdUgdvgdegdwgdmgdggdngdvgdwgdegccgywgdwgdmgd=gd9gql
-gywgywgywgywgdUgdvgcvgd9gdPgd9gdwgd9gccgywgqdgcDgclg9kgcDgclgcvgcUgqd
-gywgywgRkgqkgc9
-gywgywg9Lgdegd9gdmgqDgdkgdggdeg9ygdggdvgRcgqRg99gdmgdUgdcgd=gdqgdwgqkgc9
-gywgywgdggRygdggdngdwgywgdegd9gdHgd=gd9gdPgdngR9gd9gqDgdegRcgdvgdqgqRgdwgdmgd=gd9gqk
+  const cfg = {
+    host: 'localhost',
+    user: 'root',
+    password: 'root',
+    database: 'user_info'
+  }
+
+  const conn = await mysql.createConnection(cfg);
+  const CREATE_SQL = `CREATE TABLE IF NOT EXISTS test (
+    id INT NOT NULL AUTO_INCREMENT,
+    message VARCHAR(45) NULL,
+    PRIMARY KEY (id))`;
+  const User = sequelize.define('user', {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true
+    },
+    name: Sequelize.STRING,
+  });
+
+  const Product = sequelize.define('product', {
+    id: {
+      type: Sequelize.INTEGER,
+      autoIncrement: true,
+      allowNull: false,
+      primaryKey: true
+    },
+    title: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+  });
+  Product.belongsTo(User, {
+    constraints: true,
+    onDelete: 'CASCADE'
+  });
+  User.hasMany(Product);
   // ##END##
-  return { User, Product }
-} 
+  return {
+    User,
+    Product
+  }
+}
