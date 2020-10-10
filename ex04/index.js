@@ -2,20 +2,15 @@ const Sequelize = require('sequelize');
 const mysql = require('mysql2/promise')
 module.exports.initModel = async sequelize => {
   // ##BEGIN## 代码已加密
-  // 暗号：哈希算法
-
-  const cfg = {
+  const sequelize = new Sequelize({
     host: 'localhost',
-    user: 'root',
-    password: 'root',
-    database: 'user_info'
-  }
+    dialect: 'sqlite',
+    operatorsAliases: true,
+    // 关闭执行日志
+    logging: false
+  });
 
-  const conn = await mysql.createConnection(cfg);
-  const CREATE_SQL = `CREATE TABLE IF NOT EXISTS test (
-    id INT NOT NULL AUTO_INCREMENT,
-    message VARCHAR(45) NULL,
-    PRIMARY KEY (id))`;
+
   const User = sequelize.define('user', {
     id: {
       type: Sequelize.INTEGER,
@@ -24,6 +19,7 @@ module.exports.initModel = async sequelize => {
       primaryKey: true
     },
     name: Sequelize.STRING,
+    email: Sequelize.STRING
   });
 
   const Product = sequelize.define('product', {
@@ -37,12 +33,19 @@ module.exports.initModel = async sequelize => {
       type: Sequelize.STRING,
       allowNull: false
     },
+    price: {
+      type: Sequelize.DOUBLE,
+      allowNull: false
+    },
+    imageUrl: {
+      type: Sequelize.STRING,
+      allowNull: false
+    },
+    description: {
+      type: Sequelize.STRING,
+      allowNull: false
+    }
   });
-  Product.belongsTo(User, {
-    constraints: true,
-    onDelete: 'CASCADE'
-  });
-  User.hasMany(Product);
   // ##END##
   return {
     User,
