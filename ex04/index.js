@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const mysql = require('mysql2/promise')
 module.exports.initModel = async sequelize => {
   // ##BEGIN## 代码已加密
   const sequelize = new Sequelize({
@@ -46,5 +47,8 @@ module.exports.initModel = async sequelize => {
     }
   });
   // ##END##
-  return { User, Product }
-} 
+  return {
+    User,
+    Product
+  }
+}

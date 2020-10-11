@@ -1,9 +1,9 @@
 const Sequelize = require('sequelize');
 test('练习04 完成一个一对多查询', async () => {
 
-    const sequelize = new Sequelize({
+    const sequelize = new Sequelize("user_info", "root", "randyqin0423",{
         host: 'localhost',
-        dialect: 'sqlite',
+        dialect: 'mysql',
         operatorsAliases: true,
         // 关闭执行日志
         logging: false
